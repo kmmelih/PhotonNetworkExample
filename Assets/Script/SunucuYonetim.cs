@@ -6,6 +6,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using Photon.Pun.UtilityScripts;
 
 public class SunucuYonetim : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,7 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
     public GameObject girisPanel;
     public GameObject oyuncularPanel;
     public Text oyuncularText;
+    public Text puanlarText;
     private bool canList = false;
     void Start()
     {        
@@ -89,12 +91,19 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
             {
                 oyuncularPanel.SetActive(true);
                 oyuncularText.text = "Oyuncu Listesi\n";
+                puanlarText.text = "Skor\n";
                 foreach (Player p in PhotonNetwork.PlayerList)
                 {
                     if (p.IsMasterClient)
+                    {
                         oyuncularText.text += p.NickName + " (Mod)\n";
-                    else 
+                        puanlarText.text += p.GetScore() + "\n";
+                    }
+                    else
+                    {
                         oyuncularText.text += p.NickName + "\n";
+                        puanlarText.text += p.GetScore() + "\n";
+                    }
                 }
             }
         }

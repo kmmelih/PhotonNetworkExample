@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 using TMPro;
 using UnityEngine.UI;
+using Photon.Pun.UtilityScripts;
 
 public class oyuncu : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class oyuncu : MonoBehaviour
         _anim = GetComponent<Animator>();
         nick.text = pw.Owner.NickName;
         saglikText.text = saglik.ToString();
-
+        /*
         CameraWork _cameraWork = GetComponent<CameraWork>();
 
         if (_cameraWork != null)
@@ -33,6 +34,8 @@ public class oyuncu : MonoBehaviour
                 _cameraWork.OnStartFollowing();
             }
         }
+        */
+        PhotonNetwork.LocalPlayer.AddScore(0);
     }
 
     // Update is called once per frame
@@ -76,7 +79,17 @@ public class oyuncu : MonoBehaviour
             {
                 _anim.SetBool("buyu",false);
             }
-            
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                PhotonNetwork.LocalPlayer.SetScore(PhotonNetwork.LocalPlayer.GetScore()+1);
+                Debug.Log("Skor arttırıldı.");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Debug.Log(PhotonNetwork.LocalPlayer.GetScore());
+            }
         }
     }
 
