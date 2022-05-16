@@ -17,6 +17,8 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
     public GameObject oyuncularPanel;
     public Text oyuncularText;
     public Text puanlarText;
+    public Button odaKurButton;
+    public Button randomButton;
     private bool canList = false;
     void Start()
     {        
@@ -37,7 +39,9 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
     {       
 
         Debug.Log("Lobiye bağlanıldı.");
-        
+        odaKurButton.interactable = true;
+        randomButton.interactable = true;
+
     }  
     public override void OnJoinedRoom()
     {

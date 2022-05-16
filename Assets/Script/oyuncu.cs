@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
 
-public class oyuncu : MonoBehaviour
+public class oyuncu : MonoBehaviourPunCallbacks
 {
     public GameObject parctefek;
     private PhotonView pw;
@@ -18,6 +18,7 @@ public class oyuncu : MonoBehaviour
     public float saglik = 100f;
     public Slider saglikBar;
     public GameObject firePoint;
+    private Hashtable props;
     void Start()
     {
         pw = GetComponent<PhotonView>();
@@ -36,6 +37,13 @@ public class oyuncu : MonoBehaviour
         }
         */
         PhotonNetwork.LocalPlayer.AddScore(0);
+        props = new Hashtable()
+        {
+            {"sira",1},
+            {"kazanma",0},
+            {"kaybetme",0}
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 
     // Update is called once per frame
@@ -90,6 +98,43 @@ public class oyuncu : MonoBehaviour
             {
                 Debug.Log(PhotonNetwork.LocalPlayer.GetScore());
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("sira", out object siraDeger);
+                Debug.Log(siraDeger);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                props.TryGetValue("sira", out object siraDeger);
+                props["sira"] = (int)siraDeger + 1;
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                Debug.Log("Sıra arttırıldı.");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.Remove("sira");
+                props.Remove("sira");
+                Debug.Log("Sıra özelliği kaldırıldı");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                props.Add("sira",1);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                Debug.Log("Sıra özelliği eklendi");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {
+                    p.CustomProperties.TryGetValue("sira", out object siraDeger);
+                    Debug.Log("Nick: " + p.NickName + " Sıra: " + siraDeger);
+                }
+            }
         }
     }
 
@@ -104,5 +149,9 @@ public class oyuncu : MonoBehaviour
             PhotonNetwork.Destroy(gameObject);
         }
     }
-   
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        Debug.Log("Değer Güncellendi!");
+    }
 }
