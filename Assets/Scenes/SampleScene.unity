@@ -652,7 +652,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 341791793}
   m_OnClick:
     m_PersistentCalls:
@@ -1154,6 +1154,8 @@ MonoBehaviour:
   oyuncularPanel: {fileID: 967608246}
   oyuncularText: {fileID: 1405069865}
   puanlarText: {fileID: 1392915095}
+  odaKurButton: {fileID: 341791792}
+  randomButton: {fileID: 2107981105}
 --- !u!4 &948881823
 Transform:
   m_ObjectHideFlags: 0
@@ -2144,7 +2146,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2107981106}
   m_OnClick:
     m_PersistentCalls:

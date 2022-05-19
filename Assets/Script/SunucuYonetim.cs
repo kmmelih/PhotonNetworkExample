@@ -48,7 +48,25 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
         Debug.Log("Odaya Girildi.");
         canList = true;
         girisPanel.SetActive(false);
-        PhotonNetwork.Instantiate("Oyuncu", Vector3.zero, Quaternion.identity);
+        byte takimno;
+        int kalan = PhotonNetwork.CurrentRoom.PlayerCount % 2;
+        
+        if (kalan == 1)
+        {
+            takimno = 1;
+            GameObject oyuncu = PhotonNetwork.Instantiate("OyuncuMavi", Vector3.zero, Quaternion.identity);
+            oyuncu.GetComponent<PhotonView>().RPC("takimAta",RpcTarget.All,takimno);
+        }
+        else
+        {
+            takimno = 2;
+            GameObject oyuncu = PhotonNetwork.Instantiate("OyuncuKirmizi", Vector3.zero, Quaternion.identity);
+            oyuncu.GetComponent<PhotonView>().RPC("takimAta",RpcTarget.All,takimno);
+        }
+            
+        
+        
+        
     }
     public override void OnLeftLobby()
     {
@@ -78,7 +96,7 @@ public class SunucuYonetim : MonoBehaviourPunCallbacks
     public void odaKur()
     {
         PhotonNetwork.NickName = kullaniciAdi.text;
-        PhotonNetwork.JoinOrCreateRoom(odaAdi.text, new RoomOptions { MaxPlayers = 2, IsOpen = true, IsVisible = true }, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(odaAdi.text, new RoomOptions { MaxPlayers = 5, IsOpen = true, IsVisible = true }, TypedLobby.Default);
     }
 
     public void randomKatil()

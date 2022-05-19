@@ -135,6 +135,38 @@ public class oyuncu : MonoBehaviourPunCallbacks
                     Debug.Log("Nick: " + p.NickName + " Sıra: " + siraDeger);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log(PhotonNetwork.LocalPlayer.GetPhotonTeam());
+            }
+            
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                PhotonNetwork.LocalPlayer.LeaveCurrentTeam();
+                Debug.Log("Takımdan ayrıldın.");
+            }
+            
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                PhotonNetwork.LocalPlayer.TryGetTeamMates(out Player[] arkadaslar);
+                foreach (Player p in arkadaslar)
+                {
+                    Debug.Log("Takım arkadaşın: "+p.NickName);
+                }
+            }
+            
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (PhotonNetwork.LocalPlayer.GetPhotonTeam().Code == 1)
+                {
+                    PhotonNetwork.LocalPlayer.SwitchTeam(2);
+                }
+                else
+                {
+                    PhotonNetwork.LocalPlayer.SwitchTeam(1);
+                }
+            }
         }
     }
 
@@ -153,5 +185,11 @@ public class oyuncu : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         Debug.Log("Değer Güncellendi!");
+    }
+
+    [PunRPC]
+    void takimAta(byte takimno)
+    {
+        PhotonNetwork.LocalPlayer.JoinTeam(takimno);
     }
 }
